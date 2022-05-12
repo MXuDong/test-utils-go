@@ -75,6 +75,16 @@ func FreezeWithTime(year, month, day, hour, minute, second, nano int, location *
 	return nil
 }
 
+func FreezeWithTimeStruct(t time.Time) error {
+	if isFreeze {
+		return fmt.Errorf("time is freeze now")
+	}
+
+	setTime(t)
+	patch.Cover(time.Now, blockTimeFunc)
+	return nil
+}
+
 // FreezeTime locks the time to the current point in time
 func FreezeTime() error {
 	if isFreeze {
