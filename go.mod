@@ -1,3 +1,3 @@
-module github.com/MXuDong/test-utils-go.git
+module github.com/MXuDong/test-utils-go
 
 go 1.16
