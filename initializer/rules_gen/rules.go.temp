@@ -1,0 +1,13 @@
+//DO NOT EDIT THE FILE.
+
+package initializer
+
+import (
+    "reflect"
+)
+
+{{range $name, $funcValue := .}}
+func Fixed{{$name}}Rule(value {{$funcValue.FunctionType}}) *Rule {
+	return {{$funcValue.InnerFunction}}(value, reflect.{{$name}})
+}
+{{end}}

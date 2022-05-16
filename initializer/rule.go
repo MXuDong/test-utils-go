@@ -218,3 +218,33 @@ var (
 		return true
 	}, reflect.Map, reflect.Array, reflect.Slice)
 )
+
+func FixedUintRules(value uint64, kinds ...reflect.Kind) *Rule {
+	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetUint(value)
+		return true
+	}, kinds...)
+}
+
+
+
+func FixedIntRules(value int64, kinds ...reflect.Kind) *Rule {
+	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetInt(value)
+		return true
+	}, kinds...)
+}
+
+func FixedBoolRule(value bool, kinds ...reflect.Kind) *Rule {
+	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetBool(value)
+		return true
+	}, kinds...)
+}
+
+func FixedFloatRules(value float64, kinds ...reflect.Kind) *Rule {
+	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetFloat(value)
+		return true
+	}, kinds...)
+}
