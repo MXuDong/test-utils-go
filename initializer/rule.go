@@ -212,4 +212,9 @@ var (
 		valueObj.SetString("")
 		return true
 	}, reflect.String)
+	DefaultPtrTypeRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		v := reflect.New(valueObj.Type())
+		valueObj.Set(v.Elem())
+		return true
+	}, reflect.Map, reflect.Array, reflect.Slice)
 )

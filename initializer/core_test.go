@@ -40,6 +40,12 @@ func TestNewType(t *testing.T) {
 
 		StringV *string
 
+		CommonMap map[string]string
+		StructMap map[string]A
+
+		CommonArray []int
+		StructArray []A
+
 		X1 struct {
 			Value **float64
 		}
@@ -89,4 +95,10 @@ func TestNewType(t *testing.T) {
 	fmt.Println(*x.StringV)
 	fmt.Println("Struct=====")
 	fmt.Println(x.Av.Value)
+	fmt.Println("Map=====")
+	fmt.Println(x.CommonMap)
+	fmt.Println(x.StructMap)
+	fmt.Println("Array======")
+	fmt.Println(x.CommonArray)
+	fmt.Println(x.StructArray)
 }

@@ -56,11 +56,14 @@ func (r Initializer) initObj(value reflect.Value, obj interface{}, path string) 
 		DefaultBooleanRule.Hock(path, obj, value)
 	case reflect.String:
 		DefaultStringRule.Hock(path, obj, value)
+	case reflect.Map, reflect.Slice, reflect.Array:
+		DefaultPtrTypeRule.Hock(path, obj, value)
 	case reflect.Interface:
+	case reflect.Func:
+	case reflect.Chan:
 	default:
 		// do nothing
 		break
-
 	}
 }
 
@@ -77,5 +80,3 @@ func (r *Initializer) invokeHock(k reflect.Kind, t reflect.Type, path string, ob
 	}
 	return false
 }
-
-type TypeInitializer func(typ reflect.Type, tags ...string) interface{}
