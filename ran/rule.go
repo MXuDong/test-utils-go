@@ -9,7 +9,7 @@ import (
 // RuleHockFunction return true when value is real inject, if not inject, return false.
 type RuleHockFunction func(path string, obj interface{}, valueObj reflect.Value) bool
 
-// Rule define how value will be created. Use with Rander.
+// Rule define how value will be created. Use with Initializer.
 type Rule struct {
 	// match mod, default is pattern
 	mod int
@@ -185,10 +185,10 @@ func (r Rule) matchJsonPath(path string) bool {
 // ---------------------------------------------------------------------------------------------------------------------
 // default rule
 
-const regexAll = ".*"
+const RegexAll = ".*"
 
 func newDefaultRule(hock RuleHockFunction, kind ...reflect.Kind) *Rule {
-	return newRule(regexAll, RegexMod, hock, nil, kind)
+	return newRule(RegexAll, RegexMod, hock, nil, kind)
 }
 
 var (

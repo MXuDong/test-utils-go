@@ -1,31 +1,33 @@
 package ran
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 )
 
-type Rander struct {
+type Initializer struct {
 	hocks []*Rule
 }
 
-func (r *Rander) AddRule(rule *Rule) {
+func (r *Initializer) AddRule(rule *Rule) {
 	if r.hocks == nil {
 		r.hocks = make([]*Rule, 0)
 	}
 	r.hocks = append(r.hocks, rule)
 }
 
-func (r Rander) InjectValue(x interface{}) {
+func (r Initializer) InjectValue(x interface{}) error {
 	xv := reflect.ValueOf(x)
 	if xv.Kind() != reflect.Ptr {
-		// error
+		return fmt.Errorf("Object should a pointer ")
 	}
 
 	r.initObj(xv.Elem(), x, "$")
+	return nil
 }
 
-func (r Rander) initObj(value reflect.Value, obj interface{}, path string) {
+func (r Initializer) initObj(value reflect.Value, obj interface{}, path string) {
 	if r.invokeHock(value.Kind(), value.Type(), path, obj, value) {
 		return
 	}
@@ -54,10 +56,15 @@ func (r Rander) initObj(value reflect.Value, obj interface{}, path string) {
 		DefaultBooleanRule.Hock(path, obj, value)
 	case reflect.String:
 		DefaultStringRule.Hock(path, obj, value)
+	case reflect.Interface:
+	default:
+		// do nothing
+		break
+
 	}
 }
 
-func (r *Rander) invokeHock(k reflect.Kind, t reflect.Type, path string, obj interface{}, value reflect.Value) bool {
+func (r *Initializer) invokeHock(k reflect.Kind, t reflect.Type, path string, obj interface{}, value reflect.Value) bool {
 	if len(r.hocks) == 0 {
 		return false
 	}
