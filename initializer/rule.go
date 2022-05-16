@@ -38,6 +38,7 @@ const (
 	RegexMod    = 2
 )
 
+// NewRule return a new rule.
 func NewRule(pattern string, mod int, hock RuleHockFunction, triggerType []reflect.Type, triggerKind []reflect.Kind) (*Rule, error) {
 	r := &Rule{
 		Hock: hock,
@@ -219,32 +220,37 @@ var (
 	}, reflect.Map, reflect.Array, reflect.Slice)
 )
 
-func FixedUintRules(value uint64, kinds ...reflect.Kind) *Rule {
-	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+func FixedUintBaseRule(pattern string, mod int, value uint64, kinds ...reflect.Kind) (*Rule, error) {
+	return NewRule(pattern, mod, func(path string, obj interface{}, valueObj reflect.Value) bool {
 		valueObj.SetUint(value)
 		return true
-	}, kinds...)
+	}, nil, kinds)
 }
 
-
-
-func FixedIntRules(value int64, kinds ...reflect.Kind) *Rule {
-	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+func FixedIntBaseRule(pattern string, mod int, value int64, kinds ...reflect.Kind) (*Rule, error) {
+	return NewRule(pattern, mod, func(path string, obj interface{}, valueObj reflect.Value) bool {
 		valueObj.SetInt(value)
 		return true
-	}, kinds...)
+	}, nil, kinds)
 }
 
-func FixedBoolRule(value bool, kinds ...reflect.Kind) *Rule {
-	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+func FixedBoolBaseRule(pattern string, mod int, value bool, kinds ...reflect.Kind) (*Rule, error) {
+	return NewRule(pattern, mod, func(path string, obj interface{}, valueObj reflect.Value) bool {
 		valueObj.SetBool(value)
 		return true
-	}, kinds...)
+	}, nil, kinds)
 }
 
-func FixedFloatRules(value float64, kinds ...reflect.Kind) *Rule {
-	return newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+func FixedFloatBaseRule(pattern string, mod int, value float64, kinds ...reflect.Kind) (*Rule, error) {
+	return NewRule(pattern, mod, func(path string, obj interface{}, valueObj reflect.Value) bool {
 		valueObj.SetFloat(value)
 		return true
-	}, kinds...)
+	}, nil, kinds)
+}
+
+func FixedStringBaseRule(pattern string, mod int, value string, kinds ...reflect.Kind) (*Rule, error) {
+	return NewRule(pattern, mod, func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetString(value)
+		return true
+	}, nil, kinds)
 }

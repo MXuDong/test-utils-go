@@ -10,6 +10,7 @@ type Initializer struct {
 	hocks []*Rule
 }
 
+// AddRule add a rule to an initializer, if more than one rule can match some value, the last add rule will be used.
 func (r *Initializer) AddRule(rule *Rule) {
 	if r.hocks == nil {
 		r.hocks = make([]*Rule, 0)
@@ -17,6 +18,7 @@ func (r *Initializer) AddRule(rule *Rule) {
 	r.hocks = append(r.hocks, rule)
 }
 
+// InjectValue will generator the value follow the Rule.
 func (r Initializer) InjectValue(x interface{}) error {
 	xv := reflect.ValueOf(x)
 	if xv.Kind() != reflect.Ptr {

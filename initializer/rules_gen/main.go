@@ -17,20 +17,21 @@ type FunctionValue struct {
 }
 
 var TypeMapper map[string]FunctionValue = map[string]FunctionValue{
-	"Uint":    {Type: "Uint", InnerFunction: "FixedUintRules", FunctionType: "uint64"},
-	"Uint8":   {Type: "Uint8", InnerFunction: "FixedUintRules", FunctionType: "uint64"},
-	"Uint16":  {Type: "Uint16", InnerFunction: "FixedUintRules", FunctionType: "uint64"},
-	"Uint32":  {Type: "Uint32", InnerFunction: "FixedUintRules", FunctionType: "uint64"},
-	"Uint64":  {Type: "Uint64", InnerFunction: "FixedUintRules", FunctionType: "uint64"},
-	"Int":     {Type: "Int", InnerFunction: "FixedIntRules", FunctionType: "int64"},
-	"Int8":    {Type: "Int8", InnerFunction: "FixedIntRules", FunctionType: "int64"},
-	"Int16":   {Type: "Int16", InnerFunction: "FixedIntRules", FunctionType: "int64"},
-	"Int32":   {Type: "Int32", InnerFunction: "FixedIntRules", FunctionType: "int64"},
-	"Int64":   {Type: "Int64", InnerFunction: "FixedIntRules", FunctionType: "int64"},
-	"Float32": {Type: "Float32", InnerFunction: "FixedFloatRules", FunctionType: "float64"},
-	"Float64": {Type: "Float64", InnerFunction: "FixedFloatRules", FunctionType: "float64"},
+	"Uint":    {Type: "Uint", InnerFunction: "FixedUintBaseRule", FunctionType: "uint64"},
+	"Uint8":   {Type: "Uint8", InnerFunction: "FixedUintBaseRule", FunctionType: "uint64"},
+	"Uint16":  {Type: "Uint16", InnerFunction: "FixedUintBaseRule", FunctionType: "uint64"},
+	"Uint32":  {Type: "Uint32", InnerFunction: "FixedUintBaseRule", FunctionType: "uint64"},
+	"Uint64":  {Type: "Uint64", InnerFunction: "FixedUintBaseRule", FunctionType: "uint64"},
+	"Int":     {Type: "Int", InnerFunction: "FixedIntBaseRule", FunctionType: "int64"},
+	"Int8":    {Type: "Int8", InnerFunction: "FixedIntBaseRule", FunctionType: "int64"},
+	"Int16":   {Type: "Int16", InnerFunction: "FixedIntBaseRule", FunctionType: "int64"},
+	"Int32":   {Type: "Int32", InnerFunction: "FixedIntBaseRule", FunctionType: "int64"},
+	"Int64":   {Type: "Int64", InnerFunction: "FixedIntBaseRule", FunctionType: "int64"},
+	"Float32": {Type: "Float32", InnerFunction: "FixedFloatBaseRule", FunctionType: "float64"},
+	"Float64": {Type: "Float64", InnerFunction: "FixedFloatBaseRule", FunctionType: "float64"},
 }
 
+// run with: go generate github.com/MXuDong/test-utils-go/initializer/rules_gen
 //go:generate go run $PWD/initializer/rules_gen/main.go --template $PWD/initializer/rules_gen/rules.go.temp --output $PWD/initializer/rules.gen.go
 func main() {
 	templateFile := flag.String("template", "", "Template file")

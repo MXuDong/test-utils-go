@@ -2,7 +2,6 @@ package initializer
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 )
 
@@ -55,28 +54,14 @@ func TestNewType(t *testing.T) {
 	y := &x
 
 	r := Initializer{}
-	rule, _ := NewRule(".*X1.*", RegexMod, func(path string, obj interface{}, valueObj reflect.Value) bool {
-		fmt.Println(path)
-		valueObj.SetFloat(100)
-		return true
-	}, nil, []reflect.Kind{reflect.Float64})
-	objRule, _ := NewRule(RegexAll, RegexMod, func(path string, obj interface{}, valueObj reflect.Value) bool {
-		v := A{
-			Value: 1000,
-		}
-		value := reflect.ValueOf(v)
-		valueObj.Set(value)
-		return true
-	}, []reflect.Type{reflect.TypeOf(A{})}, []reflect.Kind{reflect.Struct})
 
-	r.AddRule(rule)
-	r.AddRule(objRule)
+	r.AddRule(FixedFloat64MatchAllRule(100))
 
 	r.InjectValue(y)
 
-	//fmt.Println(x)
-	//fmt.Println(*y)
-	fmt.Println(*x.Value, **x.X1.Value)
+	fmt.Println("Float====")
+	fmt.Println(*x.Value)
+	fmt.Println(**x.X1.Value)
 	fmt.Println("Int=====")
 	fmt.Println(*x.IntV)
 	fmt.Println(*x.Int8V)

@@ -1,13 +1,50 @@
 //DO NOT EDIT THE FILE.
 
+
+// All function of this file will return a rule with specify value and ignore the error. Some function maybe create an
+// error, it will return the nil.
+
 package initializer
 
 import (
     "reflect"
 )
 
+// ---------------------------------------------------------------------------------------------------------------------
+// pattern all
+
 {{range $name, $funcValue := .}}
-func Fixed{{$name}}Rule(value {{$funcValue.FunctionType}}) *Rule {
-	return {{$funcValue.InnerFunction}}(value, reflect.{{$name}})
+func Fixed{{$name}}MatchAllRule(value {{$funcValue.FunctionType}}) (*Rule) {
+    if ruleItem, err := {{$funcValue.InnerFunction}}(RegexAll, RegexMod, value, reflect.{{$name}}); err != nil{
+        return nil
+    }else{
+        return ruleItem
+    }
+}
+{{end}}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// pattern with path
+
+{{range $name, $funcValue := .}}
+func Fixed{{$name}}MatchJsonPathRule(value {{$funcValue.FunctionType}}, path string) (*Rule) {
+    if ruleItem, err := {{$funcValue.InnerFunction}}(path, JsonPathMod, value, reflect.{{$name}}); err != nil{
+        return nil
+    }else{
+        return ruleItem
+    }
+}
+{{end}}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// pattern with regex
+
+{{range $name, $funcValue := .}}
+func Fixed{{$name}}MatchRegexRule(value {{$funcValue.FunctionType}}, regex string) (*Rule) {
+    if ruleItem, err := {{$funcValue.InnerFunction}}(regex, RegexMod, value, reflect.{{$name}}); err != nil{
+        return nil
+    }else{
+        return ruleItem
+    }
 }
 {{end}}
