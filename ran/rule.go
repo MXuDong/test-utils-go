@@ -187,9 +187,23 @@ func (r Rule) matchJsonPath(path string) bool {
 
 const regexAll = ".*"
 
+func newDefaultRule(hock RuleHockFunction, kind ...reflect.Kind) *Rule {
+	return newRule(regexAll, RegexMod, hock, nil, kind)
+}
+
 var (
-	DefaultFloat64Rule = newRule(regexAll, RegexMod, func(path string, obj interface{}, valueObj reflect.Value) bool {
+	DefaultFloatRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
 		valueObj.SetFloat(0)
 		return true
-	}, nil, []reflect.Kind{reflect.Float64})
+	}, reflect.Float64, reflect.Float32)
+	DefaultIntRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetInt(0)
+		return true
+	},
+		reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64)
+	DefaultUIntRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetUint(0)
+		return true
+	},
+		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64)
 )

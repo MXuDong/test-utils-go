@@ -1,7 +1,6 @@
 package ran
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 )
@@ -27,7 +26,6 @@ func (r Rander) InjectValue(x interface{}) {
 }
 
 func (r Rander) initObj(value reflect.Value, obj interface{}, path string) {
-	fmt.Println(path)
 	if r.invokeHock(value.Kind(), value.Type(), path, obj, value) {
 		return
 	}
@@ -46,9 +44,13 @@ func (r Rander) initObj(value reflect.Value, obj interface{}, path string) {
 			fieldValue := value.FieldByName(field.Name)
 			r.initObj(fieldValue, obj, strings.Join([]string{path, field.Name}, "."))
 		}
-	case reflect.Float64:
+	case reflect.Float64, reflect.Float32:
 		// create by zero
-		DefaultFloat64Rule.Hock(path, obj, value)
+		DefaultFloatRule.Hock(path, obj, value)
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		DefaultIntRule.Hock(path, obj, value)
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		DefaultUIntRule.Hock(path, obj, value)
 	}
 }
 
