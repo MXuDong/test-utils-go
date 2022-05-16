@@ -199,11 +199,17 @@ var (
 	DefaultIntRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
 		valueObj.SetInt(0)
 		return true
-	},
-		reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64)
+	}, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64)
 	DefaultUIntRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
 		valueObj.SetUint(0)
 		return true
-	},
-		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64)
+	}, reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64)
+	DefaultBooleanRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetBool(false)
+		return true
+	}, reflect.Bool)
+	DefaultStringRule = newDefaultRule(func(path string, obj interface{}, valueObj reflect.Value) bool {
+		valueObj.SetString("")
+		return true
+	}, reflect.String)
 )
