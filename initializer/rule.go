@@ -1,4 +1,4 @@
-package ran
+package initializer
 
 import (
 	"reflect"
